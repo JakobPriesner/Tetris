@@ -2,7 +2,7 @@ import pygame
 
 from Audio_Manager import Audio_Manager
 from Close import Close_Game
-from color_Manager import colors
+from Color_Manager import colors
 from Tetris import Tetris
 from menus.Loose_Menu import Loose_menu
 from menus.Option import Option
@@ -29,7 +29,7 @@ class game:
         self.fps = 2
         self.clock = pygame.time.Clock()
         self.counter = 0
-        self.zoom = 30
+        self.zoom = int(_screen.get_width() * 0.08)
         self.game = Tetris(20, 10)
         self.config_data = config_data
         self.menu = _menu
@@ -42,7 +42,6 @@ class game:
     def loop(self):
         ticks = 0
         while not self.done:
-            print(self.fps)
             ticks += 1
             if ticks * self.fps >= 60:
                 ticks = 0
@@ -111,13 +110,14 @@ class game:
                 Loose_menu(self.screen, self.game, self.color_manager, self.config_data)
                 self.done = True
             # update the score and the level
-            score_font = pygame.font.SysFont('Calibri', 25, True, False)
-            text_score = score_font.render("Level " + str(self.game.level), True, self.color_manager.SCORE)
-            self.screen.blit(text_score, [0, 0])
+            level_font = pygame.font.SysFont('Calibri', 25, True, False)
+            text_level = level_font.render("Level " + str(self.game.level), True, self.color_manager.SCORE)
+            self.screen.blit(text_level, [0, 0])
 
             score_font = pygame.font.SysFont('Calibri', 25, True, False)
             text_score = score_font.render("Score " + str(self.game.score), True, self.color_manager.SCORE)
-            self.screen.blit(text_score, [100, 0])
+
+            self.screen.blit(text_score, [text_score.get_width(), 0])
 
             pygame.display.flip()
             self.clock.tick(60)
@@ -181,6 +181,12 @@ class game:
                 text = text_font.render("PAUSE", True, self.color_manager.HEADLINE)
                 screen.blit(text, [135, 160])
             pygame.display.flip()
+            break
+
+    def start_new_game(self):
+        print("start new game")
+        self.game = Tetris(20, 10)
+        self.loop()
 
     def end_pause_menu(self, old_game, fps):
         self.fps = fps

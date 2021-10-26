@@ -4,7 +4,9 @@ import pygame
 class Audio_Manager:
     def __init__(self, volume, loops, channel, fading_time=0, audio_file=None, play=False):
         self.volume = volume
-        if audio_file != None:
+        print(audio_file)
+        if audio_file is not None:
+
             self.audio_file = pygame.mixer.Sound(audio_file)
         else:
             self.audio_file = None
@@ -17,7 +19,7 @@ class Audio_Manager:
             self.play()
 
     def play(self, audio_file=None):
-        if audio_file == None:
+        if audio_file is None:
             if self.audio_file is not None:
                 pygame.mixer.Channel(self.channel).play(self.audio_file, self.loop, self.fading_time)
         else:

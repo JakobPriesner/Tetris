@@ -35,7 +35,8 @@ colors = [
     (160, 0, 0)  # reversed s
 ]
 
-class color_Manager:
+
+class Color_Manager:
     Color_Mode = "NORMAL_MODE"
     MENU_COLOR = WHITE
     LINE_COLOR = GRAY

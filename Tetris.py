@@ -7,7 +7,6 @@ class Tetris:
     height = 0
     width = 0
     field = []
-    score = 0
     level = 1
     state = "start"
     Figure = None
@@ -28,7 +27,7 @@ class Tetris:
         self.new_figure()
 
     def new_figure(self):
-        if self.pass_Figures == []:
+        if not self.pass_Figures:
             self.pass_Figures = Figure.Figures
         pass_figure = randint(0, len(self.pass_Figures) - 1)
         self.Figure = Figure(3, 0, pass_figure)
@@ -72,7 +71,6 @@ class Tetris:
         self.freeze(mixer)
 
     def rotate(self, mixer):
-        print("rotate")
         old_rotation = self.Figure.rotation
         self.Figure.rotate()
         if self.intersects():

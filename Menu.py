@@ -2,9 +2,10 @@ from pathlib import Path
 from Audio_Manager import Audio_Manager
 from Game import game
 from menus.Settings import Settings
-from color_Manager import color_Manager
+from Color_Manager import Color_Manager
 from menus.Option import Option
 from Close import Close_Game
+from threading import Thread
 import pygame
 import json
 
@@ -18,6 +19,8 @@ class menu:
 
     def __init__(self, _screen):
         self.screen = _screen
+        self.main_zoom = _screen.get_width() * 0.08
+        menu.main_zoom = self.main_zoom
         with (Path(__file__).parent / "config.json").open("rb") as config_file:
             self.config_data = json.load(config_file)
 
@@ -31,10 +34,7 @@ class menu:
             self.effect_music = Audio_Manager(0, 0, 2, audio_file="music/level_up.mp3")
 
         self.background_musik.play()
-        self.color_manager = color_Manager(_screen, self.config_data["Color_Mode"])
-        self.color2 = color_Manager(_screen, self.config_data["Color_Mode"])
-
-        self.game = game(self.screen, self.color_manager, self.config_data, self)
+        self.color_manager = Color_Manager(_screen, self.config_data["Color_Mode"])
 
         self.main_frame()
 
@@ -66,10 +66,13 @@ class menu:
                         if option.rect.collidepoint(pygame.mouse.get_pos()):
                             if option.text == "Play":
                                 self.effect_music.play("music/button_click.mp3")
-                                self.game(self.screen, self.color_manager, self.config_data)
+                                game(self.screen, self.color_manager, self.config_data, self)
                             elif option.text == "Settings":
                                 self.effect_music.play("music/button_click.mp3")
-                                Settings(self.config_data, self.background_musik, self.effect_music, self.color_manager, "menu", 100, self.screen)
+                                settings = Settings(self.screen, None, self, self.config_data, self.background_musik, self.effect_music, self.color_manager, "menu", 100, self.screen)
+                                th = Thread(target=settings.main)
+                                th.start()
+                                return
                             elif option.text == "Mute":
                                 self.effect_music.play("music/button_click.mp3")
                                 self.background_musik.set_volume(0)
@@ -83,6 +86,7 @@ class menu:
                                 self.background_musik.set_volume(self.audio_settings["menu_background"])
                                 self.effect_music.set_volume(self.audio_settings["effects"])
                                 self.config_data["Audio_Settings"]["muted"] = False
+
                                 option.text = "Mute"
                                 option.pos = (145, 380)
                                 option.set_rect()

@@ -1,5 +1,5 @@
-from color_Manager import color_Manager
-import color_Manager
+from Color_Manager import Color_Manager
+import Color_Manager
 
 
 class Figure:
@@ -20,7 +20,7 @@ class Figure:
         self.x = x_coord
         self.y = y_coord
         self.type = pass_Figure
-        self.color = color_Manager.colors[self.type + 1]
+        self.color = Color_Manager.colors[self.type + 1]
         self.rotation = 0
 
     def image(self):
