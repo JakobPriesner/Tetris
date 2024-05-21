@@ -1,1 +1,10 @@
-{"Highscore": 187, "Color_Mode": "DARK_MODE", "Audio_Settings": {"muted": false, "game_background": 4, "effects": 56.92857142857143, "menu_background": 8}}
+{
+  "Highscore": 187,
+  "Color_Mode": "DARK_MODE",
+  "Audio_Settings": {
+    "muted": false,
+    "game_background": 4,
+    "effects": 56.92857142857143,
+    "menu_background": 8
+  }
+}
